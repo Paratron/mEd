@@ -25,7 +25,7 @@ Instead of a list of all class selectors,
 you can use the generic selector below, but it's slower:
 [class*="icon-"]:before {
 */
-.icon-bold:before, .icon-italic:before, .icon-quotes-left:before, .icon-link:before, .icon-image:before, .icon-code:before, .icon-list:before, .icon-minus:before {
+.icon-bold:before, .icon-italic:before, .icon-quotes-left:before, .icon-link:before, .icon-image:before, .icon-code:before, .icon-list:before, .icon-minus:before, .icon-table:before, .icon-cog:before, .icon-upload:before, .icon-download:before, .icon-file:before {
 	font-family: 'icomoon';
 	speak: none;
 	font-style: normal;
@@ -34,26 +34,41 @@ you can use the generic selector below, but it's slower:
 	-webkit-font-smoothing: antialiased;
 }
 .icon-bold:before {
-	content: "\e000";
-}
-.icon-italic:before {
-	content: "\e001";
-}
-.icon-quotes-left:before {
 	content: "\e002";
 }
-.icon-link:before {
+.icon-italic:before {
 	content: "\e003";
 }
-.icon-image:before {
+.icon-quotes-left:before {
 	content: "\e004";
 }
-.icon-code:before {
+.icon-link:before {
 	content: "\e005";
 }
-.icon-list:before {
+.icon-image:before {
 	content: "\e006";
 }
-.icon-minus:before {
+.icon-code:before {
 	content: "\e007";
+}
+.icon-list:before {
+	content: "\e008";
+}
+.icon-minus:before {
+	content: "\e009";
+}
+.icon-table:before {
+	content: "\e00a";
+}
+.icon-cog:before {
+	content: "\e00b";
+}
+.icon-upload:before {
+	content: "\e00d";
+}
+.icon-download:before {
+	content: "\e00e";
+}
+.icon-file:before {
+	content: "\e00c";
 }
