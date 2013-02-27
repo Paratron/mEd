@@ -5,7 +5,7 @@
  */
 define([], function () {
     var waiting = [],
-        ready = false;
+            ready = false;
 
     function requestInstance(callback) {
         if (!ready) {
@@ -40,20 +40,46 @@ define([], function () {
         this.addClass(modo.MarkdownRender.classNames[0]);
 
         var settings = {
-
+            value:'',
+            css:''
         };
 
         var that = this;
 
         var doc;
 
-        this.set = function (value) {
-            if (!ready) return this;
+        function render() {
             doc = that.el[0].contentDocument;
             doc.open();
-            doc.write(marked(value));
+            doc.write('<html><head><style>' + settings.css + '</style></head>');
+            doc.write(settings.value);
+            doc.write('</html>');
             doc.close();
+        }
+
+        /**
+         * Will set the content of the preview element to a specific value.
+         * @param {String} value
+         */
+        this.set = function (value) {
+            if (!ready) {
+                requestInstance(function () {
+                    that.set(value);
+                });
+                return;
+            }
+            settings.value = marked(value);
+            render();
         };
+
+        /**
+         * Will take a CSS source string and apply it on the rendered content.
+         * @param {String} source
+         */
+        this.css = function (source) {
+            settings.css = source;
+            render();
+        }
     };
 
     modo.MarkdownRender.classNames = ['markdownrender'];

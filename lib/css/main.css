@@ -1,24 +1,2 @@
-.mdo-root {
-  padding: 0;
-}
-.toolbar {
-  height: 20px;
-  padding-top: 10px;
-  padding-left: 10px;
-  padding-bottom: 10px;
-  background-color: #e8e8e8;
-  border-bottom: #ccc solid 1px;
-}
-.markdown-editor {
-  border-right: solid 1px #ccc;
-  background: #fff;
-  width: 50%;
-}
-.mdo-markdownrender {
-  border: none;
-}
-.mdo-toolbar-item {
-  font-size: 12px;
-}
-
+.mdo-root{padding:0}.toolbar{height:20px;padding-top:10px;padding-bottom:10px;background-color:#e8e8e8;border-bottom:#ccc solid 1px}.markdown-editor{border-right:solid 1px #ccc;background:#fff;width:50%!important;max-width:50%}.mdo-markdownrender{border:0}.mdo-toolbar-item{font-size:12px}.mEd-icon{width:46px;vertical-align:middle;position:relative;top:2px;margin-left:10px;margin-right:20px}.stylepicker b{display:block;font-size:16px}
 /* This beautiful CSS-File has been crafted with LESS (lesscss.org) and compiled by simpLESS (wearekiss.com/simpless) */
