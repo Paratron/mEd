@@ -76,27 +76,27 @@ define(['ui/base', 'text!templates/default.md', 'modules/gear'], function (ui, t
     };
 
     var menu_actions = {
-        md_localstorage: function(){
+        md_localstorage:function () {
 
         },
 
-        md_gist: function(){
+        md_gist:function () {
 
         },
 
-        md_dropbox: function(){
+        md_dropbox:function () {
 
         },
 
-        html_download: function(){
-            require(['modules/clientside_download'], function(fs){
+        html_download:function () {
+            require(['modules/clientside_download'], function (fs) {
                 var data = ui.preview.get();
                 fs.save_text('mEd-render.html', data);
             });
         }
     };
 
-    ui.mnu_save.on('select', function(key){
+    ui.mnu_save.on('select', function (key) {
         menu_actions[key]();
     });
 
@@ -113,6 +113,7 @@ define(['ui/base', 'text!templates/default.md', 'modules/gear'], function (ui, t
      * of the cm object for usage in the action functions.
      * Also, the codemirror element is being focused.
      */
+    var ignore_scroll;
     ui.codemirror.once('ready', function () {
         cm = ui.codemirror.cm;
         ui.codemirror.set(txt_md_default);
@@ -125,6 +126,50 @@ define(['ui/base', 'text!templates/default.md', 'modules/gear'], function (ui, t
                 width:ui.root.el.width() / 2
             });
         }, 500);
+
+
+        cm.on('scroll', function () {
+            if (!gear.get('scroll_lock') || ignore_scroll) {
+                return;
+            }
+            console.log('!');
+            var s = cm.getScrollInfo();
+            var sb_height = s.clientHeight / (s.height / 100);
+            var max_scroll = (s.height / 100) * (100 - sb_height);
+            var scroll_percentage = s.top / (max_scroll / 100);
+
+            ui.preview.scrollTo(scroll_percentage);
+        });
+
+        cm.on('cursorActivity', function () {
+            if (!gear.get('follow_cursor')) {
+                return;
+            }
+        })
+    });
+
+    var ig_timeout;
+    ui.preview.once('ready', function () {
+        this.on('scroll', function (s) {
+            if (!gear.get('scroll_lock')) {
+                return;
+            }
+
+            var sb_height = s.clientHeight / (s.height / 100);
+            var max_scroll = (s.height / 100) * (100 - sb_height);
+            var scroll_percentage = s.top / (max_scroll / 100);
+
+
+            var s2 = ui.codemirror.cm.getScrollInfo();
+            var sb_height2 = s2.clientHeight / (s2.height / 100);
+            var msv = (s2.height / 100) * (100 - sb_height2);
+            ignore_scroll = true;
+            ui.codemirror.cm.scrollTo(0, (msv / 100) * scroll_percentage);
+            clearTimeout(ig_timeout);
+            ig_timeout = setTimeout(function () {
+                ignore_scroll = false;
+            }, 1);
+        });
     });
 
     /**

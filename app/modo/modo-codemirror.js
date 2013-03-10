@@ -84,6 +84,7 @@ define([], function () {
                 });
             }
 
+            //@TODO: remove this
             comir = that.cm;
 
             var wrap = that.cm.getWrapperElement();

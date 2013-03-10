@@ -41,17 +41,26 @@ define(['modules/gear'], function (gear) {
 
         var settings = {
             value:'',
-            rendered: ''
+            rendered:'',
+            scroll_pos:null,
+            foreign_scroll:false
         };
 
         var that = this;
 
-        var doc;
+        var $doc;
+
 
         function render() {
             var val = '';
 
-            doc = that.el[0].contentDocument;
+            if (!$doc) {
+                return;
+            }
+
+            var doc = $doc[0],
+                    win = $win[0];
+
             doc.open();
 
             val = '<html><head><style>' + gear.get('style_css') + '</style></head>';
@@ -63,9 +72,27 @@ define(['modules/gear'], function (gear) {
             doc.write();
             doc.write(val);
             doc.close();
+
+            if (settings.scroll_pos) {
+                win.scrollTo(settings.scroll_pos[0], settings.scroll_pos[1]);
+            }
+
+            //I don't know WHY, but the window object seems to be re-created on every
+            //document creation, so we have to re-attach the listener... :/
+            win.onscroll = function (e) {
+                if (settings.foreign_scroll) {
+                    return;
+                }
+                var sobj = {
+                    top: win.scrollY,
+                    clientHeight: that.el.height(),
+                    height: $win.height()
+                };
+                that.trigger('scroll', sobj);
+            };
         }
 
-        this.get = function(){
+        this.get = function () {
             return settings.rendered;
         };
 
@@ -84,7 +111,49 @@ define(['modules/gear'], function (gear) {
             render();
         };
 
-        gear.on('change:style_css', function(){
+        var $win;
+        var ig_timeout;
+        this.scrollTo = function (x, y) {
+            if (!ready) {
+                return;
+            }
+
+            if (!$win) {
+                return;
+            }
+
+            if (typeof y === 'undefined') {
+                //Relative scrolling
+                var win_height = $win.height();
+                var outer_height = that.el.height();
+
+                var sb_height = outer_height / (win_height / 100);
+                var msv = (win_height / 100) * (100 - sb_height);
+
+                y = (msv / 100) * x;
+                x = 0;
+            }
+
+            settings.scroll_pos = [x, y];
+
+            settings.foreign_scroll = true;
+            $win[0].scrollTo(x, y);
+            //Set this back after the scroll event has been fired.
+            clearTimeout(ig_timeout);
+            ig_timeout = setTimeout(function () {
+                settings.foreign_scroll = false;
+            }, 1);
+        };
+
+        if (!ready) {
+            requestInstance(function () {
+                $win = $(that.el[0].contentWindow);
+                $doc = $(that.el[0].contentDocument);
+                that.trigger('ready');
+            });
+        }
+
+        gear.on('change:style_css', function () {
             render();
         });
     };

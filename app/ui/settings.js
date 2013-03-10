@@ -55,6 +55,22 @@ define(['modules/gear'], function (gear) {
                             }
                         }
                     }
+                },
+
+                {
+                    type: 'Label',
+                    params: {
+                        className: 'smallheadline',
+                        value: 'Magic Scrolling'
+                    }
+                },
+                {
+                    type: 'CheckBox',
+                    params: {
+                        label: 'Lock scrolling of editor and preview',
+                        model: gear,
+                        model_key: 'scroll_lock'
+                    }
                 }
             ]
         }
