@@ -138,21 +138,34 @@ define(['modo/modo-codemirror', 'modo/modo-markdownrender'], function () {
                     ]
                 },
                 {
-                    type:'PopUp',
+                    type:'Menu',
                     ref:'mnu_save',
                     params:{
                         elements:[
                             {
-                                label:'Local Storage',
-                                cssClass:'icon-layer'
+                                ref: 'md_localstorage',
+                                label:'Save Markdown in LocalStorage',
+                                hotkey: 'l',
+                                icon:'layer'
                             },
                             {
-                                label:'GitHub Gist',
-                                cssClass:'icon-github'
+                                ref: 'md_gist',
+                                label:'Save Markdown as GitHub Gist',
+                                hotkey: 'g',
+                                icon:'github',
+                                disabled: true
                             },
                             {
-                                label:'Dropbox',
-                                cssClass:'icon-box'
+                                ref: 'md_dropbox',
+                                label:'Save Markdown in Dropbox',
+                                hotkey: 'd',
+                                icon:'box',
+                                disabled: true
+                            },
+                            {}, //Divider
+                            {
+                                ref: 'html_download',
+                                label: 'Download rendered HTML'
                             }
                         ]
                     }

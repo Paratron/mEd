@@ -1,4 +1,9 @@
 {
+    "default":{
+        "title": "Browser Default",
+        "author":"your Browser",
+        "src":"default.css"
+    },
     "github":{
         "title":"Github",
         "author":"Andy Ferra",

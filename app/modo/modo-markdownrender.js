@@ -3,7 +3,7 @@
  * ===========
  * description
  */
-define([], function () {
+define(['modules/gear'], function (gear) {
     var waiting = [],
             ready = false;
 
@@ -41,7 +41,7 @@ define([], function () {
 
         var settings = {
             value:'',
-            css:''
+            rendered: ''
         };
 
         var that = this;
@@ -49,13 +49,25 @@ define([], function () {
         var doc;
 
         function render() {
+            var val = '';
+
             doc = that.el[0].contentDocument;
             doc.open();
-            doc.write('<html><head><style>' + settings.css + '</style></head>');
-            doc.write(settings.value);
-            doc.write('</html>');
+
+            val = '<html><head><style>' + gear.get('style_css') + '</style></head>';
+            val += settings.value;
+            val += '</html>';
+
+            settings.rendered = val;
+
+            doc.write();
+            doc.write(val);
             doc.close();
         }
+
+        this.get = function(){
+            return settings.rendered;
+        };
 
         /**
          * Will set the content of the preview element to a specific value.
@@ -72,14 +84,9 @@ define([], function () {
             render();
         };
 
-        /**
-         * Will take a CSS source string and apply it on the rendered content.
-         * @param {String} source
-         */
-        this.css = function (source) {
-            settings.css = source;
+        gear.on('change:style_css', function(){
             render();
-        }
+        });
     };
 
     modo.MarkdownRender.classNames = ['markdownrender'];

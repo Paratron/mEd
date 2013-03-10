@@ -8,22 +8,11 @@ require.config({
     //urlArgs:"bust=" + (new Date()).getTime() //Remove after development
 });
 
-define(['ui/base', 'text!templates/default.md', 'text!default_styles.json', 'modules/gear'], function (ui, txt_md_default, css_styles, gear) {
+define(['ui/base', 'text!templates/default.md', 'modules/gear'], function (ui, txt_md_default, gear) {
     gui = ui;
-
-    css_styles = JSON.parse(css_styles);
 
     var cm,
             actions;
-
-
-    function load_style(name) {
-        require(['text!styles/' + css_styles[name].src], function (css) {
-            ui.preview.css(css);
-        });
-    }
-
-    load_style(gear.get('style'));
 
     /**
      * This actions can bei either invoked by the toolbar, or by a hotkey.
@@ -32,9 +21,10 @@ define(['ui/base', 'text!templates/default.md', 'text!default_styles.json', 'mod
     actions = {
         newdoc:function () {
             cm.setValue('');
+            cm.focus();
         },
         save:function () {
-
+            ui.mnu_save.show_at_element(ui.toolbar.get_element_by_key('save'));
         },
         bold:function () {
             var selection = cm.getSelection(),
@@ -85,6 +75,31 @@ define(['ui/base', 'text!templates/default.md', 'text!default_styles.json', 'mod
         }
     };
 
+    var menu_actions = {
+        md_localstorage: function(){
+
+        },
+
+        md_gist: function(){
+
+        },
+
+        md_dropbox: function(){
+
+        },
+
+        html_download: function(){
+            require(['modules/clientside_download'], function(fs){
+                var data = ui.preview.get();
+                fs.save_text('mEd-render.html', data);
+            });
+        }
+    };
+
+    ui.mnu_save.on('select', function(key){
+        menu_actions[key]();
+    });
+
     /**
      * Whenever a change is made to the codemirror element, forward the content
      * to the preview element.
@@ -102,6 +117,14 @@ define(['ui/base', 'text!templates/default.md', 'text!default_styles.json', 'mod
         cm = ui.codemirror.cm;
         ui.codemirror.set(txt_md_default);
         ui.codemirror.focus();
+
+        //A little hack that is needed to fix codemirror's width.
+        $cm_box = $('.CodeMirror-scroll');
+        setInterval(function () {
+            $cm_box.css({
+                width:ui.root.el.width() / 2
+            });
+        }, 500);
     });
 
     /**
@@ -124,7 +147,8 @@ define(['ui/base', 'text!templates/default.md', 'text!default_styles.json', 'mod
         'ctrl+q':'quote',
         'alt+l':'link',
         'alt+n':'newdoc',
-        'ctrl+alt+s':'settings'
+        'ctrl+alt+s':'settings',
+        'alt+s':'save'
     };
     modo.key_listener.on('stroke', function (e, stroke) {
         if (typeof strokes[stroke] === 'undefined') return;

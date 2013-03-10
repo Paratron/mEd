@@ -3,10 +3,8 @@
  * ===========
  * description
  */
-define(['text!default_styles.json'], function (css_styles) {
-    css_styles = JSON.parse(css_styles);
-
-    return modo.generate([
+define(['modules/gear'], function (gear) {
+    var ui = modo.generate([
         {
             type:'PopUp',
             ref:'pop_settings',
@@ -26,26 +24,45 @@ define(['text!default_styles.json'], function (css_styles) {
                     type: 'Label',
                     params: {
                         className: 'smallheadline',
-                        value: ''
+                        value: 'Render Style'
                     }
                 },
                 {
                     type:'List',
+                    ref: 'list',
                     params:{
                         className:'stylepicker',
-                        data:css_styles,
-                        item_render:function (d) {
-                            var html = '<div>';
+                        data:gear.get('styles_available'),
+                        item_render:function (d, i, k) {
+                            var html = '<div' + (gear.get('style') === k ? ' class="active"' : '') + '>';
 
-                            html += '<b>'+ d.title +'</b>';
-                            html += '<span>by <a href="' + d.url + '">' + d.author + '</a></span>';
+                            html += '<b>'+ d.title + (gear.get('style') === k ? ' <span>(selected)</span>' : '') + '</b>';
+                            if(d.url){
+                                html += '<span>by <a target="_blank" href="' + d.url + '">' + d.author + '</a></span>';
+                            } else {
+                                html += '<span>by ' + d.author + '</span>';
+                            }
 
                             html += '</div>';
                             return html;
+                        },
+                        item_events: {
+                            click: function(e,i,d){
+                                gear.set_style(i);
+                            },
+                            'click a': function(e){
+                                e.stopPropagation();
+                            }
                         }
                     }
                 }
             ]
         }
     ]);
+
+    gear.on('change:style', function(){
+        ui.list.update();
+    });
+
+    return ui;
 });

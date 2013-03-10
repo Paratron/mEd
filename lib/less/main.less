@@ -26,7 +26,7 @@
   font-size: 12px;
 }
 
-.mEd-icon{
+.mEd-icon {
   width: 46px;
   vertical-align: middle;
   position: relative;
@@ -35,13 +35,42 @@
   margin-right: 20px;
 }
 
-.mdo-toolbar{
+.mdo-toolbar {
 
 }
 
-.stylepicker{
-  b{
+.stylepicker {
+  b {
     display: block;
-    font-size: 16px;
+    font-size: 14px;
+
+    span{
+      font-weight: normal;
+    }
+  }
+
+  .mdo-list-item {
+    cursor: pointer;
+    border-bottom: #ccc solid 1px;
+    border-radius: 0;
+  }
+
+  .mdo-list-item:first-child {
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+  }
+
+  .mdo-list-item:last-child {
+    border-bottom: none;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+  }
+
+  .active {
+    background: #e3f1ff;
+
+    &:hover{
+      background: #e3f1ff;
+    }
   }
 }
