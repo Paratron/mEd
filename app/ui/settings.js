@@ -71,6 +71,14 @@ define(['modules/gear'], function (gear) {
                         model: gear,
                         model_key: 'scroll_lock'
                     }
+                },
+                {
+                    type: 'CheckBox',
+                    params: {
+                        label: 'Scroll preview to editors cursor position',
+                        model: gear,
+                        model_key: 'follow_cursor'
+                    }
                 }
             ]
         }

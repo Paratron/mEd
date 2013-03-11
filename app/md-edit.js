@@ -68,6 +68,117 @@ define(['ui/base', 'text!templates/default.md', 'modules/gear'], function (ui, t
             cm.setCursor(cursor);
             cm.focus();
         },
+        list:function () {
+            var selection,
+                    cursor,
+                    line,
+                    md,
+                    i;
+
+            md = '';
+
+            selection = cm.getSelection();
+
+            cursor = cm.getCursor(true);
+
+            if (!selection) {
+                line = cm.getLine(cursor.line);
+                if (cursor.line > 0) {
+                    line += cm.getLine(cursor.line - 1);
+                }
+
+                if (line) {
+                    md += '\n\n';
+                    cursor.line += 2;
+                }
+
+                md += '* ';
+                cursor.ch = 2;
+            } else {
+                selection = selection.split('\n');
+                for(i = 0; i < selection.length; i++){
+                    md += '* ' + selection[i] + '\n';
+                }
+            }
+
+            cm.replaceSelection(md);
+            cm.setCursor(cursor);
+            cm.focus();
+        },
+        table:function () {
+            var input,
+                    cols,
+                    rows,
+                    cursor,
+                    line,
+                    md,
+                    i,
+                    j;
+
+            input = prompt('How many columns and rows should the table have?\nEnter in format: COLS:ROWS', '3:5');
+
+            if (!input) {
+                return;
+            }
+
+            input = input.split(':');
+
+            cols = parseInt(input[0]);
+            rows = parseInt(input[1]);
+
+            if (cols < 1 || rows < 1) {
+                alert('Illegal input.');
+            }
+
+            rows++;
+
+            //Generate the markdown code.
+            md = '';
+
+            cursor = cm.getCursor(true);
+
+            line = cm.getLine(cursor.line);
+            if (cursor.line > 0) {
+                line += cm.getLine(cursor.line - 1);
+            }
+
+            if (line) {
+                md += '\n\n';
+            }
+
+            for (i = 0; i < rows; i++) {
+                for (j = 0; j < cols; j++) {
+                    if (j) {
+                        md += ' | ';
+                    }
+                    if (!i) {
+                        md += 'Header          '
+                    } else {
+                        md += 'Cell            ';
+                    }
+                }
+
+                if (!i) {
+                    md += '\n';
+                    for (j = 0; j < cols; j++) {
+                        if (j) {
+                            md += ' | ';
+                        }
+                        md += '----------------';
+                    }
+                }
+
+                md += '\n';
+            }
+
+            md += '\n';
+
+            cm.replaceSelection(md);
+
+            cm.setCursor(cursor);
+
+            cm.focus();
+        },
         settings:function () {
             require(['ui/settings'], function (settings_ui) {
                 settings_ui.pop_settings.open();
@@ -122,30 +233,30 @@ define(['ui/base', 'text!templates/default.md', 'modules/gear'], function (ui, t
         //A little hack that is needed to fix codemirror's width.
         $cm_box = $('.CodeMirror-scroll');
         setInterval(function () {
+            var the_width = ui.root.el.width() / 2;
+
             $cm_box.css({
-                width:ui.root.el.width() / 2
+                width:the_width
             });
+
+            ui.codemirror.el.width(the_width);
         }, 500);
 
-
-        cm.on('scroll', function () {
+        function scrollUpdate() {
             if (!gear.get('scroll_lock') || ignore_scroll) {
                 return;
             }
-            console.log('!');
             var s = cm.getScrollInfo();
             var sb_height = s.clientHeight / (s.height / 100);
             var max_scroll = (s.height / 100) * (100 - sb_height);
             var scroll_percentage = s.top / (max_scroll / 100);
 
             ui.preview.scrollTo(scroll_percentage);
-        });
+        }
 
-        cm.on('cursorActivity', function () {
-            if (!gear.get('follow_cursor')) {
-                return;
-            }
-        })
+
+        cm.on('scroll', scrollUpdate);
+        cm.on('cursorActivity', scrollUpdate);
     });
 
     var ig_timeout;
@@ -190,7 +301,9 @@ define(['ui/base', 'text!templates/default.md', 'modules/gear'], function (ui, t
         'ctrl+b':'bold',
         'ctrl+i':'italic',
         'ctrl+q':'quote',
-        'alt+l':'link',
+        'alt+u':'link',
+        'alt+l':'list',
+        'alt+t':'table',
         'alt+n':'newdoc',
         'ctrl+alt+s':'settings',
         'alt+s':'save'

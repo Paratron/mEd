@@ -9,7 +9,8 @@ define(['text!default_styles.json'], function (css_styles) {
             style:'github',
             style_css: null,
             styles_available:[],
-            scroll_lock: true
+            scroll_lock: true,
+            follow_cursor: true
         },
         initialize:function () {
             this.attributes.styles_available = JSON.parse(css_styles);

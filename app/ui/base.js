@@ -69,7 +69,7 @@ define(['modo/modo-codemirror', 'modo/modo-markdownrender'], function () {
                                     [
                                         {
                                             key:'link',
-                                            tooltip:'Link (ALT+L)',
+                                            tooltip:'URL (ALT+U)',
                                             className:'icon-link'
                                         },
                                         {
@@ -84,7 +84,7 @@ define(['modo/modo-codemirror', 'modo/modo-markdownrender'], function () {
                                         },
                                         {
                                             key:'list',
-                                            tooltip:'Insert List',
+                                            tooltip:'Insert List (ALT+L)',
                                             className:'icon-list'
                                         },
                                         {
@@ -94,7 +94,7 @@ define(['modo/modo-codemirror', 'modo/modo-markdownrender'], function () {
                                         },
                                         {
                                             key:'table',
-                                            tooltip:'Insert Table',
+                                            tooltip:'Insert Table (ALT+T)',
                                             className:'icon-table'
                                         }
                                     ],

@@ -73,6 +73,8 @@ define(['modules/gear'], function (gear) {
             doc.write(val);
             doc.close();
 
+            $('a', doc).attr('target', '_blank');
+
             if (settings.scroll_pos) {
                 win.scrollTo(settings.scroll_pos[0], settings.scroll_pos[1]);
             }
