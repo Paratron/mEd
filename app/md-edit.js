@@ -96,7 +96,7 @@ define(['ui/base', 'text!templates/default.md', 'modules/gear'], function (ui, t
                 cursor.ch = 2;
             } else {
                 selection = selection.split('\n');
-                for(i = 0; i < selection.length; i++){
+                for (i = 0; i < selection.length; i++) {
                     md += '* ' + selection[i] + '\n';
                 }
             }
@@ -216,6 +216,7 @@ define(['ui/base', 'text!templates/default.md', 'modules/gear'], function (ui, t
      * to the preview element.
      */
     ui.codemirror.on('change', function (content) {
+        localStorage.setItem('med_backup', content);
         ui.preview.set(content);
     });
 
@@ -227,6 +228,10 @@ define(['ui/base', 'text!templates/default.md', 'modules/gear'], function (ui, t
     var ignore_scroll;
     ui.codemirror.once('ready', function () {
         cm = ui.codemirror.cm;
+        var backup = localStorage.getItem('med_backup');
+        if (backup) {
+            txt_md_default = backup;
+        }
         ui.codemirror.set(txt_md_default);
         ui.codemirror.focus();
 
@@ -257,6 +262,11 @@ define(['ui/base', 'text!templates/default.md', 'modules/gear'], function (ui, t
 
         cm.on('scroll', scrollUpdate);
         cm.on('cursorActivity', scrollUpdate);
+
+        gear.on('change:editor_theme', function () {
+            cm.setOption('theme', gear.get('editor_theme'));
+        });
+        cm.setOption('theme', gear.get('editor_theme'));
     });
 
     var ig_timeout;

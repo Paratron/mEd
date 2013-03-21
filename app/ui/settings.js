@@ -20,24 +20,25 @@ define(['modules/gear'], function (gear) {
                         value:'Settings'
                     }
                 },
+
                 {
-                    type: 'Label',
-                    params: {
-                        className: 'smallheadline',
-                        value: 'Render Style'
+                    type:'Label',
+                    params:{
+                        className:'smallheadline',
+                        value:'Render Style'
                     }
                 },
                 {
                     type:'List',
-                    ref: 'list',
+                    ref:'list',
                     params:{
                         className:'stylepicker',
                         data:gear.get('styles_available'),
                         item_render:function (d, i, k) {
                             var html = '<div' + (gear.get('style') === k ? ' class="active"' : '') + '>';
 
-                            html += '<b>'+ d.title + (gear.get('style') === k ? ' <span>(selected)</span>' : '') + '</b>';
-                            if(d.url){
+                            html += '<b>' + d.title + (gear.get('style') === k ? ' <span>(selected)</span>' : '') + '</b>';
+                            if (d.url) {
                                 html += '<span>by <a target="_blank" href="' + d.url + '">' + d.author + '</a></span>';
                             } else {
                                 html += '<span>by ' + d.author + '</span>';
@@ -46,11 +47,11 @@ define(['modules/gear'], function (gear) {
                             html += '</div>';
                             return html;
                         },
-                        item_events: {
-                            click: function(e,i,d){
+                        item_events:{
+                            click:function (e, i, d) {
                                 gear.set_style(i);
                             },
-                            'click a': function(e){
+                            'click a':function (e) {
                                 e.stopPropagation();
                             }
                         }
@@ -58,34 +59,75 @@ define(['modules/gear'], function (gear) {
                 },
 
                 {
-                    type: 'Label',
-                    params: {
-                        className: 'smallheadline',
-                        value: 'Magic Scrolling'
+                    type:'Label',
+                    params:{
+                        className:'smallheadline',
+                        value:'Editor Theme'
                     }
                 },
                 {
-                    type: 'CheckBox',
-                    params: {
-                        label: 'Lock scrolling of editor and preview',
-                        model: gear,
-                        model_key: 'scroll_lock'
+                    type:'List',
+                    ref:'theme_list',
+                    params:{
+                        className:'stylepicker',
+                        data:gear.get('themes_available'),
+                        item_render:function (d, i, k) {
+                            var html = '<div' + (gear.get('editor_theme') === k ? ' class="active"' : '') + '>';
+
+                            html += '<b>' + d.title + (gear.get('editor_theme') === k ? ' <span>(selected)</span>' : '') + '</b>';
+                            if (d.url) {
+                                html += '<span>by <a target="_blank" href="' + d.url + '">' + d.author + '</a></span>';
+                            } else {
+                                html += '<span>by ' + d.author + '</span>';
+                            }
+
+                            html += '</div>';
+                            return html;
+                        },
+                        item_events:{
+                            click:function (e, i, d) {
+                                gear.set('editor_theme', i);
+                            },
+                            'click a':function (e) {
+                                e.stopPropagation();
+                            }
+                        }
+                    }
+                },
+
+                {
+                    type:'Label',
+                    params:{
+                        className:'smallheadline',
+                        value:'Magic Scrolling'
                     }
                 },
                 {
-                    type: 'CheckBox',
-                    params: {
-                        label: 'Scroll preview to editors cursor position',
-                        model: gear,
-                        model_key: 'follow_cursor'
+                    type:'CheckBox',
+                    params:{
+                        label:'Lock scrolling of editor and preview',
+                        model:gear,
+                        model_key:'scroll_lock'
+                    }
+                },
+                {
+                    type:'CheckBox',
+                    params:{
+                        label:'Scroll preview to editors cursor position',
+                        model:gear,
+                        model_key:'follow_cursor'
                     }
                 }
             ]
         }
     ]);
 
-    gear.on('change:style', function(){
+    gear.on('change:style', function () {
         ui.list.update();
+    });
+
+    gear.on('change:editor_theme', function(){
+        ui.theme_list.update();
     });
 
     return ui;

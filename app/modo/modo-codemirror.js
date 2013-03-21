@@ -5,9 +5,9 @@
  */
 define([], function () {
     var waiting = [],
-        ready = false,
-        waiting_for_mode = {},
-        head = document.head || document.getElementsByTagName('head')[0];
+            ready = false,
+            waiting_for_mode = {},
+            head = document.head || document.getElementsByTagName('head')[0];
 
     function requestCodeMirror(callback) {
         if (!ready) {
@@ -17,16 +17,16 @@ define([], function () {
         }
     }
 
-    function requestMode(name, callback){
-        if(typeof CodeMirror.modes[name] !== 'undefined'){
+    function requestMode(name, callback) {
+        if (typeof CodeMirror.modes[name] !== 'undefined') {
             callback();
             return;
         }
-        if(typeof waiting_for_mode[name] === 'undefined'){
+        if (typeof waiting_for_mode[name] === 'undefined') {
             waiting_for_mode[name] = [];
             var s = document.createElement('script');
-            s.onload = function(){
-                for(var i = 0; i < waiting_for_mode[name].length; i++){
+            s.onload = function () {
+                for (var i = 0; i < waiting_for_mode[name].length; i++) {
                     waiting_for_mode[name][i]();
                 }
                 waiting_for_mode[name] = undefined;
@@ -78,8 +78,8 @@ define([], function () {
                 lineNumbers:settings.lineNumbers
             });
 
-            if(typeof CodeMirror.modes[settings.mode] === 'undefined'){
-                requestMode(settings.mode, function(){
+            if (typeof CodeMirror.modes[settings.mode] === 'undefined') {
+                requestMode(settings.mode, function () {
                     that.cm.setOption('mode', settings.mode);
                 });
             }

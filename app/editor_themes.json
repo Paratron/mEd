@@ -1,0 +1,92 @@
+{
+    "default":{
+        "title":"Default",
+        "author":"Codemirror",
+        "url":"http://codemirror.net"
+    },
+    "ambiance":{
+        "title":"Ambiance",
+        "author":"Codemirror",
+        "url":"http://codemirror.net"
+    },
+    "blackboard":{
+        "title":"Blackboard",
+        "author":"Codemirror - ported from TextMate",
+        "url":"http://codemirror.net"
+    },
+    "cobalt":{
+        "title":"Cobalt",
+        "author":"Codemirror",
+        "url":"http://codemirror.net"
+    },
+    "eclipse":{
+        "title":"Eclipse",
+        "author":"Codemirror",
+        "url":"http://codemirror.net"
+    },
+    "elegant":{
+        "title":"Elegant",
+        "author":"Codemirror",
+        "url":"http://codemirror.net"
+    },
+    "erlang-dark":{
+        "title":"Erlang Dark",
+        "author":"Codemirror",
+        "url":"http://codemirror.net"
+    },
+    "lesser-dark":{
+        "title":"Lesser Dark",
+        "author":"Peter Kroon - ported from lesscss.org",
+        "url":"http://lesscss.org"
+    },
+    "monokai":{
+        "title":"Monokai",
+        "author":"Codemirror - based on Sublime Text's Monokai theme",
+        "url":"http://codemirror.net"
+    },
+    "neat":{
+        "title":"Neat",
+        "author":"Codemirror",
+        "url":"http://codemirror.net"
+    },
+    "night":{
+        "title":"Night",
+        "author":"Codemirror - loosely based on TextMate's Midnight theme",
+        "url":"http://codemirror.net"
+    },
+    "rubyblue":{
+        "title":"Ruby Blue",
+        "author":"Codemirror",
+        "url":"http://codemirror.net"
+    },
+    "solarized dark":{
+        "title":"Solarized Dark",
+        "author":"Ethan Schoonover",
+        "url":"http://ethanschoonover.com/solarized"
+    },
+    "solarized light":{
+        "title":"Solarized Light",
+        "author":"Ethan Schoonover",
+        "url":"http://ethanschoonover.com/solarized"
+    },
+    "twilight":{
+        "title":"Twilight",
+        "author":"Codemirror",
+        "url":"http://codemirror.net"
+    },
+    "vibrant-ink":{
+        "title":"Vibrant Ink",
+        "author":"Codemirror - taken from the popular Visual Studio Schema",
+        "url":"http://codemirror.net"
+    },
+    "xq-dark":{
+        "title":"XQ Dark",
+        "author":"Mike Brevoort, MarkLogic Corp.",
+        "url":""
+    },
+    "xq-light":{
+        "title":"XQ Light",
+        "author":"Mike Brevoort, MarkLogic Corp.",
+        "url":""
+    }
+}

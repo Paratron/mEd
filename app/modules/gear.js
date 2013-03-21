@@ -3,17 +3,20 @@
  * ===========
  * description
  */
-define(['text!default_styles.json'], function (css_styles) {
+define(['text!default_styles.json', 'text!editor_themes.json'], function (css_styles, editor_themes) {
     return new (Backbone.Model.extend({
         defaults:{
             style:'github',
             style_css: null,
             styles_available:[],
             scroll_lock: true,
-            follow_cursor: true
+            follow_cursor: true,
+            editor_theme: 'default',
+            themes_available: {}
         },
         initialize:function () {
             this.attributes.styles_available = JSON.parse(css_styles);
+            this.attributes.themes_available = JSON.parse(editor_themes);
             this.set_style(this.attributes.style);
         },
 
